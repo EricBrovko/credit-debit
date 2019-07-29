@@ -1,0 +1,39 @@
+{
+  "name": "batch-editing-service",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "cross-env NODE_PATH=. node app/index.js",
+    "start:dev": "cross-env NODE_PATH=. nodemon app/index.js",
+    "lint": "./node_modules/.bin/eslint app/"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/EricBrovko/batch-editing-service.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/EricBrovko/batch-editing-service/issues"
+  },
+  "homepage": "https://github.com/EricBrovko/batch-editing-service#readme",
+  "dependencies": {
+    "bcrypt": "^3.0.6",
+    "body-parser": "^1.19.0",
+    "config": "^3.2.2",
+    "cookie-parser": "^1.4.4",
+    "cross-env": "^5.2.0",
+    "express": "^4.17.1",
+    "jsonwebtoken": "^8.5.1",
+    "log4js": "^4.5.1",
+    "passport": "^0.4.0",
+    "passport-local": "^1.0.0",
+    "request": "^2.88.0"
+  },
+  "devDependencies": {
+    "eslint": "^6.1.0",
+    "jest": "^24.8.0",
+    "nodemon": "^1.19.1"
+  }
+}
