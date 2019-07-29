@@ -24,7 +24,7 @@ module.exports.init = () => {
         }
 
         if (email !== user.email) {
-          return done(null, null, { message: "This email is not registered" });
+          return done(null, null, { message: "This email is not registered." });
         }
 
         return bcrypt.compare(password, user.passwordHash, (err, isValid) => {

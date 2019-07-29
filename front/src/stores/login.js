@@ -1,7 +1,9 @@
-import _ from 'lodash';
 import { decorate, observable, action } from 'mobx';
 
-import { token } from '../helper/auth';
+import API from "../API";
+import { token as tokenHelper } from "../helper/auth";
+import props from "../helper/props";
+import notification from "../helper/notification";
 
 class Login {
   email = "";
@@ -30,21 +32,21 @@ class Login {
       return false;
     }
 
-    // if (!props.REG_EXP_EMAIL.test(this.email) && !this.password) {
-    //   this.errors.email = true;
-    //   this.errors.password = true;
-    //   return false;
-    // }
+    if (!props.REG_EXP_EMAIL.test(this.email) && !this.password) {
+      this.errors.email = true;
+      this.errors.password = true;
+      return false;
+    }
 
-    // if (props.REG_EXP_EMAIL.test(this.email) && !this.password) {
-    //   this.errors.password = true;
-    //   return false;
-    // }
+    if (props.REG_EXP_EMAIL.test(this.email) && !this.password) {
+      this.errors.password = true;
+      return false;
+    }
 
-    // if (!this.email || !props.REG_EXP_EMAIL.test(this.email)) {
-    //   this.errors.email = true;
-    //   return false;
-    // }
+    if (!this.email || !props.REG_EXP_EMAIL.test(this.email)) {
+      this.errors.email = true;
+      return false;
+    }
 
     return true;
   }
@@ -52,46 +54,38 @@ class Login {
   handleSubmit(event) {
     event.preventDefault();
 
-    // if (!this.isValidForm()) {
-    //   return;
-    // }
+    if (!this.isValidForm()) {
+      return;
+    }
 
     this.login();
   }
 
   login() {
     this.isLoading = true;
-
-    const params = {
+    // {
+    //   "email": "admin@dot.com",
+    //   "password": "admin"
+    // }
+    API.post("/auth", {
       email: this.email,
       password: this.password
-    };
-
-    // postData('/auth', params, {}, true)
-    //   .then(({ errors, token }) => {
-    //     this.isLoading = false;
-
-    //     if (errors) {
-    //       return notification.error(props.getError(errors, 'Invalid Login Credentials'));
-    //     }
-
-    //     localStorage.touchcarePortal = token;
-    //     window.location.href = '/';
-    //   });
-
-    console.log(`send log in`, params);
-    this.isLoading = false;
-
-    token.set("VERY LONG STRING from API");
-    window.location.href = '/';
+    })
+      .then(res => {
+        this.isLoading = false;
+        const { data: { token } } = res;
+        tokenHelper.set(token);
+        window.location.href = "/";
+      })
+      .catch(error => {
+        this.isLoading = false;
+        notification.error(props.getError(error, "Something went wrong"));
+      });
   }
 
   logout() {
-    // userStore.isAuthenticated = false;
-    // localStorage.removeItem('touchcarePortal');
-    // localStorage.removeItem('touchcarePortalIID');
-    token.delete();
-    window.location.href = '/login';
+    tokenHelper.delete();
+    window.location.href = "/login";
   }
 }
 

@@ -37,5 +37,8 @@ module.exports = {
 
       return apiCore.sendSuccessResponse(req, res, { token });
     })(req, res);
+  },
+  test: (req, res) => {
+    return apiCore.sendSuccessResponse(req, res, "auth test OKEY");
   }
 };

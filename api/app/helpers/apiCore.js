@@ -62,6 +62,6 @@ module.exports = {
 
     request.sentResponse = true;
 
-    return response.status(code).json({ errors: formattedErrors });
+    return response.status(code).json(formattedErrors);
   }
 };
