@@ -1,12 +1,11 @@
 "use strict";
 
 const passport = require("passport");
-const config = require("config");
 const { Strategy } = require("passport-local");
 const bcrypt = require("bcrypt");
 
-// module.exports.init = (User) => {
-module.exports.init = () => {
+
+module.exports.init = (User) => {
   passport.use(
     "local",
     new Strategy(
@@ -14,10 +13,11 @@ module.exports.init = () => {
         usernameField: "email",
         passwordField: "password"
       },
-      (email, password, done) => {
-        // find user in db
-        // const user = await User.find({email});
-        const { user } = config;
+      async (email, password, done) => {
+        const user = await User.findOne({
+          where: { email },
+          raw: true
+        });
 
         if (!user) {
           return done(null, {}, { message: "This email is not registered." });
@@ -27,7 +27,7 @@ module.exports.init = () => {
           return done(null, null, { message: "This email is not registered" });
         }
 
-        return bcrypt.compare(password, user.passwordHash, (err, isValid) => {
+        return bcrypt.compare(password, user.hashedPassword, (err, isValid) => {
           if (err || !isValid) {
             return done(
               null, null, { message: "This password is not correct." }

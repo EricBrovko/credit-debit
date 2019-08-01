@@ -1,15 +1,9 @@
-import React, { Fragment } from 'react';
+import React from 'react';
 
 import { ConfigConsumer } from "../../context/config";
 
-
 const Home = (props) => {
-
   console.log(`Home props`, props);
-
-  // return <div>Home</div>
-
-
 
   return (
     <ConfigConsumer>

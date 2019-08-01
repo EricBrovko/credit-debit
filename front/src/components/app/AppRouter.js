@@ -1,5 +1,6 @@
 import React, { Fragment } from 'react';
 import { Router, Redirect, Route, Switch } from 'react-router-dom';
+import { NotificationContainer } from 'react-notifications';
 import { RouterStore, syncHistoryWithStore } from 'mobx-react-router';
 import { createBrowserHistory } from 'history';
 import { omit } from 'lodash';
@@ -60,6 +61,7 @@ const AppRouter = (props) => {
               component={NotFoundPage}
             />
           </Switch>
+          <NotificationContainer />
         </Fragment>
       </Router>
     )
